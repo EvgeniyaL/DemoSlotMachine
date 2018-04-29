@@ -10,7 +10,7 @@
         {
             var coefficient = 0;
             var deposit = 200;
-            Player player = new Player(deposit);
+            var player = new Player(deposit);
             player.Stake = 10;
             deposit -= 10;
             player.ClaculateBalance(coefficient);
@@ -23,12 +23,13 @@
         {
             var coefficient = 2;
             decimal deposit = 200;
-            Player player = new Player(deposit);
-            player.Stake = 10;
+            var player = new Player(deposit);
+            int stake = 10;
+            player.Stake = stake;
             deposit = deposit - player.Stake + (player.Stake * coefficient);
             player.ClaculateBalance(coefficient);
             Assert.AreEqual(expected: deposit, actual: player.Deposit);
-            Assert.AreEqual(expected: player.Stake * coefficient, actual: player.Stake);
+            Assert.AreEqual(expected: stake * coefficient, actual: player.Stake);
         }
     }
 }

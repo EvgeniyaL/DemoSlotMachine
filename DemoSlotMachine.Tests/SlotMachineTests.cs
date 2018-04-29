@@ -1,9 +1,8 @@
 ﻿namespace DemoSlotMachine.Tests
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
-    using DemoSlotMachine;
+    using Exceptions;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
@@ -27,7 +26,7 @@
         [TestMethod]
         public void PopulateTableWithSymbolsProbabilitySumLessThanHundred()
         {
-            SlotMachine slotMachine = new SlotMachine(Configuration.ROWCOUNT, Configuration.COLCOUNT);
+            SlotMachine slotMachine = new SlotMachine(Configuration.RowCount, Configuration.ColCount);
             var list = new List<Symbol>()
             {
                 new Symbol(character: '$', coefficient: 1.5M, probability: 0.5)
@@ -38,7 +37,7 @@
         [TestMethod]
         public void PopulateTableWithSymbolsProbabilitySumMoreThanHundred()
         {
-            SlotMachine slotMachine = new SlotMachine(Configuration.ROWCOUNT, Configuration.COLCOUNT);
+            SlotMachine slotMachine = new SlotMachine(Configuration.RowCount, Configuration.ColCount);
             var list = new List<Symbol>()
             {
                 new Symbol(character: '$', coefficient: 1.5M, probability: 1.5)
