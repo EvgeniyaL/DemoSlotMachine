@@ -1,28 +1,18 @@
 ﻿namespace DemoSlotMachine
 {
     using System;
-    using System.Collections.Generic;
-    using DemoSlotMachine.Contracts;
 
     public static class Program
     {
-        private static IEnumerable<ISymbol> Symbols { get; } = new[]
-        {
-            new Symbol(character: 'A', coefficient: 0.4M, probability: 0.45),
-            new Symbol(character: 'B', coefficient: 0.6M, probability: 0.35),
-            new Symbol(character: 'P', coefficient: 0.8M, probability: 0.15),
-            new Symbol(character: '*', coefficient: 0.0M, probability: 0.05),
-        };
-
         public static void Main(string[] args)
         {
-            var slotMachine = new SlotMachine(4, 3);
+            var slotMachine = new SlotMachine(Configuration.ROWCOUNT, Configuration.COLCOUNT);
             var player = new Player(deposit: GetPlayerInput("Please deposit money you would like to play with:"));
             do
             {
                 player.Stake = GetPlayerStakeInput(player.Deposit);
 
-                var table = slotMachine.PopulateTableWithSymbols(Symbols);
+                var table = slotMachine.PopulateTableWithSymbols(Configuration.Symbols);
                 table.Render();
 
                 decimal coefficient = slotMachine.CalculeGlobalCoefficient();
@@ -36,9 +26,9 @@
 
         private static decimal GetPlayerInput(string message)
         {
-            decimal amount;
+            decimal amount = 0;
             Console.WriteLine(message);
-            while (!decimal.TryParse(Console.ReadLine(), out amount))
+            while (!decimal.TryParse(Console.ReadLine(), out amount) || amount <= 0)
             {
                 Console.WriteLine("Please enter a valid value:");
             }
@@ -62,7 +52,7 @@
             }
         }
 
-        private static void Render(this ISymbol[][] table)
+        private static void Render(this Symbol[][] table)
         {
             Console.WriteLine();
             for (int i = 0; i < table.Length; i++)

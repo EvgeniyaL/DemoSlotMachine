@@ -3,7 +3,6 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Contracts;
 
     public class SlotMachine
     {
@@ -11,16 +10,16 @@
 
         public SlotMachine(int rowsCount, int colsCount)
         {
-            this.Table = new ISymbol[rowsCount][];
+            this.Table = new Symbol[rowsCount][];
             for (int i = 0; i < rowsCount; i++)
             {
-                this.Table[i] = new ISymbol[colsCount];
+                this.Table[i] = new Symbol[colsCount];
             }
         }
 
-        private ISymbol[][] Table { get; set; }
+        private Symbol[][] Table { get; set; }
 
-        public ISymbol[][] PopulateTableWithSymbols(IEnumerable<ISymbol> symbols)
+        public Symbol[][] PopulateTableWithSymbols(IEnumerable<Symbol> symbols)
         {
             for (int i = 0; i < this.Table.Length; i++)
             {
@@ -33,22 +32,28 @@
             return this.Table;
         }
 
-        public decimal CalculeGlobalCoefficient()
+        public decimal CalculeGlobalCoefficient(Symbol[][] table = null)
         {
+            table = table ?? this.Table;
             decimal sum = 0;
-            for (int i = 0; i < this.Table.Length; i++)
+            foreach (var row in table)
             {
-                if (this.Table[i].Skip(1).All(x => x == this.Table[i][0] || x.IsWildcard))
+                if (row.Skip(1).All(x => x == row[0] || x.IsWildcard))
                 {
-                    sum += this.Table[i].Sum(x => x.Coefficient);
+                    sum += row.Sum(x => x.Coefficient);
                 }
             }
 
             return sum;
         }
 
-        private static ISymbol GetCharacter(IEnumerable<ISymbol> symbols)
+        private static Symbol GetCharacter(IEnumerable<Symbol> symbols)
         {
+            if (symbols.Sum(x => x.Probability) > 1)
+            {
+                throw new ProbabilityException("Symbol probability sum is more than 100%.");
+            }
+
             double randomNumber = Random.NextDouble();
             foreach (var symbol in symbols)
             {

@@ -49,7 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Contracts\ISymbol.cs" />
+    <Compile Include="Configuration.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Exceptions\ProbabilityException.cs" />
     <Compile Include="Program.cs" />

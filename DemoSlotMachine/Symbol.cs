@@ -1,8 +1,7 @@
 ﻿namespace DemoSlotMachine
 {
-    using Contracts;
 
-    public class Symbol : ISymbol
+    public class Symbol
     {
         public Symbol(char character, decimal coefficient, double probability)
         {
